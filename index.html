@@ -1,0 +1,2226 @@
+<html>
+<html>
+<body>
+
+
+<img id="spritesheet" style="display:none;" src="spritesheet.png" alt="The spritesheet">
+<img id="splash" style="display:none;" src="splash.png" alt="The spritesheet">
+<img id="feature" style="display:none;" src="feature.png" alt="The spritesheet">
+
+
+<canvas id="myCanvas" width="1080" height="720" style="border:1px solid #d3d3d3;">
+Your browser does not support the HTML5 canvas tag.
+</canvas>
+
+<script>
+//Initiating variables
+//testing variables
+var rotation1111 = 0;
+
+//OG variables
+	var bitmapwidthratio=.25;
+	var bitmapheightratio=.25;
+
+
+
+		
+	var beam, pop, cowsound1, cowsound2, explosion, gunshot;
+    var ufospeed = 0;
+    var gamestarted=0;
+    var level=0;
+    var score=0;
+    var liveufos=0;
+    var livecows=0;
+    var livecows2=0;
+    var gy=0;
+    var gamestartedb4=0;
+    var startthead=0;
+	
+	var pitch, yaw, y, x, z, w;
+	var roll = 1;
+	var roll1 = 0;
+	var gy1 = 0;
+
+    var setcont=0;
+
+    
+    
+    var tapX, tapY;
+	var touch = 0;
+	
+	
+	var cowcycledirection = 0;
+    var getufowidth=0;
+    var getufoheight=0;
+    var getcowheight=0;
+    var shotfired=0;
+
+
+
+	var tick, bunnyi;
+	splashtick = 0;
+    var startingpovar=0;
+    var showsplash=0;
+
+
+	var rise,run;
+    
+    var cock = 0;
+    var touchx,touchy,lbcx,lbcy,rbcx,rbcy,fire;
+
+
+    var mousex, mousey;
+
+    
+    var rangexa;//going to move to the top later.
+    var rangexb;
+    var rangeya;
+    var rangeyb;
+
+
+    var spinr;
+
+
+
+
+    var init=0;
+    var ufoscount=0;
+    var cowscount=0;
+    var splashheight=121*4;
+    var splashwidth=105*4;
+    var splash2height=500*4;
+    var splash2width=1024*4;
+
+
+
+    //variables
+    var cowgettingabducted =  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+
+    var ufovictim =  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+    var ufopattern =  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+    var ufoabducting =  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+
+    var ufocycle =  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+
+    var ufocycledirection =  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+
+
+    var cowx =  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+    var cowy =  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+    var cowogy =  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+    var cowcycle =  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+    var cowstate =  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];//0 means alive 1 means shot 2 means abducted
+    var cowcolor =  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+
+    //ufostate 0 means alive 1,2,3 means dead 4 means gone
+    var ufostate =  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+    var ufox =  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+    var ufoy =  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+    var ufocolor = [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+    var targetwidth = [99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99,99];
+    var targetheight = [63,63,63,63,63,63,63,63,63,63,63,63,63,63,63,63,63,63,63,63,63,63,63,63,63,63,63,63,63,63,63,63,63,63,63,63,63,63,63,63,63,63,63,63,63,63,63,63,63,63,63,63,63,63,63,63,63,63,63,63,63,63,63,63,63,63,63,63,63,63,63,63,63,63,63,63,63,63,63,63,63,63,63,63,63,63,63,63,63,63,63,63,63,63,63,63,63,63,63,63];
+
+
+    var ufoflightdirectionx =  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+
+    var ufoflightdirectiony =  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+    var ufoflightdirectiontheta =  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+
+    var ufoflightcirclecenx =  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+
+
+    var ufoextravariable =  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+    var ufoextravariable2 =  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+    var ufoextravariable3 =  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+
+    //var ufopattern =  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+
+
+
+    var rounds = 0;
+    var tx =  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+    var ty =  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+
+//ufo cycle array
+			/*
+			var ufosourcex1[] = { (0*bitmapwidthratio),  (396*bitmapwidthratio),  (792*bitmapwidthratio), (1188*bitmapwidthratio), (1584*bitmapwidthratio), (1980*bitmapwidthratio), (2376*bitmapwidthratio), (2772*bitmapwidthratio), (1836*bitmapwidthratio)};//8 ufo animation 1 explosion
+			var ufosourcey1[] = {(0*bitmapheightratio), (0*bitmapheightratio), (0*bitmapheightratio), (0*bitmapheightratio), (0*bitmapheightratio), (0*bitmapheightratio), (0*bitmapheightratio), (0*bitmapheightratio), (1212*bitmapheightratio)};
+			var ufosourcex2[] = {(396*bitmapwidthratio), (792*bitmapwidthratio), (1188*bitmapwidthratio), (1584*bitmapwidthratio), (1980*bitmapwidthratio), (2376*bitmapwidthratio), (2772*bitmapwidthratio), (3168*bitmapwidthratio), (2284*bitmapwidthratio)};
+			var ufosourcey2[] = {(248*bitmapheightratio), (248*bitmapheightratio), (248*bitmapheightratio), (248*bitmapheightratio), (248*bitmapheightratio), (248*bitmapheightratio), (248*bitmapheightratio), (248*bitmapheightratio), (1608*bitmapheightratio)};
+			*/
+
+
+			var ufosourcex1 = [(0*bitmapwidthratio), (400*bitmapwidthratio), (800*bitmapwidthratio), (1200*bitmapwidthratio), (1600*bitmapwidthratio), (2000*bitmapwidthratio), (2400*bitmapwidthratio), (2800*bitmapwidthratio), (3200*bitmapwidthratio), (3600*bitmapwidthratio), (4000*bitmapwidthratio), (4400*bitmapwidthratio), 0, 0, 0, 0, 0, 0];//6 facing left 6 facing right
+			var ufosourcey1 = [(0*bitmapheightratio), (0*bitmapheightratio), (0*bitmapheightratio), (0*bitmapheightratio), (0*bitmapheightratio), (0*bitmapheightratio), (0*bitmapheightratio), (0*bitmapheightratio), (0*bitmapheightratio),(0*bitmapheightratio), (0*bitmapheightratio), (0*bitmapheightratio), 0, 0, 0, 0, 0, 0];
+			var ufosourcex2 = [(396*bitmapwidthratio), (796*bitmapwidthratio), (1196*bitmapwidthratio), (1596*bitmapwidthratio), (1996*bitmapwidthratio), (2396*bitmapwidthratio), (2796*bitmapwidthratio), (3196*bitmapwidthratio), (3596*bitmapwidthratio),(3996*bitmapwidthratio), (4396*bitmapwidthratio), (4796*bitmapwidthratio), 0, 0, 0, 0, 0, 0];
+			var ufosourcey2 = [(248*bitmapheightratio), (248*bitmapheightratio), (248*bitmapheightratio), (248*bitmapheightratio), (248*bitmapheightratio), (248*bitmapheightratio), (248*bitmapheightratio), (248*bitmapheightratio), (248*bitmapheightratio),(248*bitmapheightratio), (248*bitmapheightratio), (248*bitmapheightratio), 0, 0, 0, 0, 0, 0];
+
+			//Black Bird source y1=0; y2=248;
+			//                //Blue Bird source y1=3700; y2=3948;
+			//                //Yellow Bird source y1=3960; y2=4208;
+			//                //Red Bird source y1=4220; y2=4468;
+			//                //White Bird source y1=4488; y2=4736;
+			//                //Green Bird source y1=4748; y2=4996;
+
+
+
+			var cowsrcx1 = [(0*bitmapwidthratio), (432*bitmapwidthratio), (864*bitmapwidthratio), (1296*bitmapwidthratio), (1728*bitmapwidthratio), (2160*bitmapwidthratio), (2592*bitmapwidthratio), (3024*bitmapwidthratio), (3456*bitmapwidthratio), (3888*bitmapwidthratio), (4320*bitmapwidthratio),(0*bitmapwidthratio), (432*bitmapwidthratio), (864*bitmapwidthratio), (1296*bitmapwidthratio), (1728*bitmapwidthratio), (2160*bitmapwidthratio), (2592*bitmapwidthratio), (3024*bitmapwidthratio), (3456*bitmapwidthratio), (3888*bitmapwidthratio), (4320*bitmapwidthratio),(4752*bitmapwidthratio), (5184*bitmapwidthratio), (5616*bitmapwidthratio), (6048*bitmapwidthratio), (6480*bitmapwidthratio), (6912*bitmapwidthratio), (7344*bitmapwidthratio), (7776*bitmapwidthratio), (8208*bitmapwidthratio), (8640*bitmapwidthratio), (9072*bitmapwidthratio),(4752*bitmapwidthratio), (5184*bitmapwidthratio), (5616*bitmapwidthratio), (6048*bitmapwidthratio), (6480*bitmapwidthratio), (6912*bitmapwidthratio), (7344*bitmapwidthratio), (7776*bitmapwidthratio), (8208*bitmapwidthratio), (8640*bitmapwidthratio), (9072*bitmapwidthratio)];
+			var cowsrcy1 = [(688*bitmapheightratio), (688*bitmapheightratio), (688*bitmapheightratio), (688*bitmapheightratio), (688*bitmapheightratio), (688*bitmapheightratio), (688*bitmapheightratio), (688*bitmapheightratio), (688*bitmapheightratio), (688*bitmapheightratio), (688*bitmapheightratio),(356*bitmapheightratio), (356*bitmapheightratio), (356*bitmapheightratio), (356*bitmapheightratio), (356*bitmapheightratio), (356*bitmapheightratio), (356*bitmapheightratio), (356*bitmapheightratio), (356*bitmapheightratio), (356*bitmapheightratio), (356*bitmapheightratio),(688*bitmapheightratio), (688*bitmapheightratio), (688*bitmapheightratio), (688*bitmapheightratio), (688*bitmapheightratio), (688*bitmapheightratio), (688*bitmapheightratio), (688*bitmapheightratio), (688*bitmapheightratio), (688*bitmapheightratio), (688*bitmapheightratio),(356*bitmapheightratio), (356*bitmapheightratio), (356*bitmapheightratio), (356*bitmapheightratio), (356*bitmapheightratio), (356*bitmapheightratio), (356*bitmapheightratio), (356*bitmapheightratio), (356*bitmapheightratio), (356*bitmapheightratio), (356*bitmapheightratio)];
+			var cowsrcx2 = [(432*bitmapwidthratio), (864*bitmapwidthratio), (1296*bitmapwidthratio), (1728*bitmapwidthratio), (2160*bitmapwidthratio), (2592*bitmapwidthratio), (3024*bitmapwidthratio), (3456*bitmapwidthratio), (3888*bitmapwidthratio), (4320*bitmapwidthratio), (4752*bitmapwidthratio),(432*bitmapwidthratio), (864*bitmapwidthratio), (1296*bitmapwidthratio), (1728*bitmapwidthratio), (2160*bitmapwidthratio), (2592*bitmapwidthratio), (3024*bitmapwidthratio), (3456*bitmapwidthratio), (3888*bitmapwidthratio), (4320*bitmapwidthratio), (4752*bitmapwidthratio),(5184*bitmapwidthratio), (5616*bitmapwidthratio), (6048*bitmapwidthratio), (6480*bitmapwidthratio), (6912*bitmapwidthratio), (7344*bitmapwidthratio), (7776*bitmapwidthratio), (8208*bitmapwidthratio), (8640*bitmapwidthratio), (9072*bitmapwidthratio), (9504*bitmapwidthratio),(5184*bitmapwidthratio), (5616*bitmapwidthratio), (6048*bitmapwidthratio), (6480*bitmapwidthratio), (6912*bitmapwidthratio), (7344*bitmapwidthratio), (7776*bitmapwidthratio), (8208*bitmapwidthratio), (8640*bitmapwidthratio), (9072*bitmapwidthratio), (9504*bitmapwidthratio)];
+			var cowsrcy2 = [(988*bitmapheightratio), (988*bitmapheightratio), (988*bitmapheightratio), (988*bitmapheightratio), (988*bitmapheightratio), (988*bitmapheightratio), (988*bitmapheightratio), (988*bitmapheightratio), (988*bitmapheightratio), (988*bitmapheightratio), (988*bitmapheightratio),(660*bitmapheightratio), (660*bitmapheightratio), (660*bitmapheightratio), (660*bitmapheightratio), (660*bitmapheightratio), (660*bitmapheightratio), (660*bitmapheightratio), (660*bitmapheightratio), (660*bitmapheightratio), (660*bitmapheightratio), (660*bitmapheightratio),(988*bitmapheightratio), (988*bitmapheightratio), (988*bitmapheightratio), (988*bitmapheightratio), (988*bitmapheightratio), (988*bitmapheightratio), (988*bitmapheightratio), (988*bitmapheightratio), (988*bitmapheightratio), (988*bitmapheightratio), (988*bitmapheightratio),(660*bitmapheightratio), (660*bitmapheightratio), (660*bitmapheightratio), (660*bitmapheightratio), (660*bitmapheightratio), (660*bitmapheightratio), (660*bitmapheightratio), (660*bitmapheightratio), (660*bitmapheightratio), (660*bitmapheightratio), (660*bitmapheightratio)];
+			
+
+			for(var f=22; f<33; f++){
+				cowsrcx1[f]+=24*bitmapwidthratio;
+				cowsrcx2[f]+=24*bitmapwidthratio;
+
+			}
+			for(var f=33; f<44; f++){
+				cowsrcx1[f]+=24*bitmapwidthratio;
+				cowsrcx2[f]+=24*bitmapwidthratio;
+
+			}
+
+			var barnx1 = (2552*bitmapwidthratio);
+			var barny1 = (1152*bitmapheightratio);
+			var barnx2 = (3596*bitmapwidthratio);
+			var barny2 = (2356*bitmapheightratio);
+
+
+			//gameover
+			var gameoverx1 = (2680*bitmapwidthratio);
+			var gameovery1 = (2384*bitmapheightratio);
+			var gameoverx2 = (3612*bitmapwidthratio);
+			var gameovery2 = (2808*bitmapheightratio);
+
+			//ufo beam
+			var beamx1 = (2712*bitmapwidthratio);
+			var beamy1 = (2840*bitmapheightratio);
+			var beamx2 = (2932*bitmapwidthratio);
+			var beamy2 = (3600*bitmapheightratio);
+
+			//beamsrc = new Rect(beamx1, beamy1, beamx2, beamy2);
+
+
+			var cloudx1 = (3048*bitmapwidthratio);
+			var cloudy1 = (2980*bitmapheightratio);
+			var cloudx2 = (3424*bitmapwidthratio);
+			var cloudy2 = (3264*bitmapheightratio);
+
+			
+
+			var crosshairx1 = (4*14*bitmapwidthratio);
+			var crosshairy1 = (4*272*bitmapheightratio);
+			var crosshairx2 = (4*34*bitmapwidthratio);
+			var crosshairy2 = (4*291*bitmapheightratio);
+
+			var shottyx1 = [(4*337*bitmapwidthratio),(4*390*bitmapwidthratio)];
+			var shottyy1 = [(4*305*bitmapheightratio),(4*305*bitmapheightratio)];
+			var shottyx2 = [(4*386*bitmapwidthratio)-shottyx1[0],(4*439*bitmapwidthratio)-shottyx1[1]];
+			var shottyy2 = [(4*406*bitmapheightratio)-shottyy1[0],(4*406*bitmapheightratio)-shottyy1[1]];
+
+			
+			var backgroundx1 = (3832*bitmapwidthratio);
+			var backgroundy1 = (1252*bitmapheightratio);
+			var backgroundx2 = (4112*bitmapwidthratio);
+			var backgroundy2 = (2352*bitmapheightratio);
+			
+			var woodboardx1 = [(4*0*bitmapwidthratio),(4*0*bitmapwidthratio),(4*0*bitmapwidthratio),(4*0*bitmapwidthratio)];//blank, share, high score, Play
+			var woodboardy1 = [(4*441*bitmapheightratio),(4*561*bitmapheightratio),(4*681*bitmapheightratio),(4*797*bitmapheightratio)];
+			var woodboardx2 = [(4*637*bitmapwidthratio),(4*637*bitmapwidthratio),(4*637*bitmapwidthratio),(4*637*bitmapwidthratio)];
+			var woodboardy2 = [(4*551*bitmapheightratio),(4*671*bitmapheightratio),(4*791*bitmapheightratio),(4*907*bitmapheightratio)];
+
+
+
+
+
+    var widthRatio, heightRatio, newwidthRatio, newheightRatio;
+	
+
+						
+								
+//end of variable initiation
+
+//functions
+
+function radians_to_degrees(radians)
+{
+  var pi = Math.PI;
+  return radians * (180/pi);
+}
+
+function degrees_to_radians(degrees)
+{
+  var pi = Math.PI;
+  return degrees * (pi/180);
+}
+
+
+
+
+//rise over run function
+function riserun(hyp, angle){
+        var angle2=angle;
+        while(angle2>360){
+            angle2-=360;
+        }
+        while(angle2<0){
+            angle2+=360;
+        }
+        run= (Math.sin(degrees_to_radians(angle2))*hyp);
+        rise= -(Math.cos(degrees_to_radians(angle2))*hyp);
+        return 0;
+    }
+
+//random number generator
+function randomnumber(xlimitleft2, xlimitright2){
+        var rndNum =  (Math.random() * ( xlimitright2 - xlimitleft2 ));
+        return rndNum;
+    }
+	
+	
+	
+
+
+
+
+
+
+	
+	
+//on load
+window.onload = function() {
+	var c = document.getElementById("myCanvas");
+	var ctx = c.getContext("2d");
+	var img = document.getElementById("spritesheet");
+	var splash = document.getElementById("splash");
+	var feature = document.getElementById("feature");
+	var height=720;
+	var width=1080;
+	var newHeight=height;
+	var newWidth=width;
+	var widthRatio=.25;//1280
+    var heightRatio=.25;//720
+	
+	//var gy=(360-(event.values[2]*80))/1000;//y direction
+	var gy = .47//(360-(2*80))/1000;//y direction
+	//Things to do
+	//.47 lower limit for gy looking down.
+	//.75 upper limit limit for gy looking up.
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  //Lock mouse stuff
+  // pointer lock object forking for cross browser
+
+c.requestPointerLock = c.requestPointerLock ||
+                            c.mozRequestPointerLock;
+
+document.exitPointerLock = document.exitPointerLock ||
+                           document.mozExitPointerLock;
+
+c.onclick = function() {
+  c.requestPointerLock();
+};
+
+// pointer lock event listeners
+
+// Hook pointer lock state change events for different browsers
+document.addEventListener('pointerlockchange', lockChangeAlert, false);
+document.addEventListener('mozpointerlockchange', lockChangeAlert, false);
+
+function lockChangeAlert() {
+  if (document.pointerLockElement === c ||
+      document.mozPointerLockElement === c) {
+    console.log('The pointer lock status is now locked');
+    document.addEventListener("mousemove", updatePosition, false);
+  } else {
+    console.log('The pointer lock status is now unlocked');  
+    document.removeEventListener("mousemove", updatePosition, false);
+  }
+}
+
+//var tracker = document.getElementById('tracker');
+
+var animation;
+function updatePosition(e) {
+  roll1 -= e.movementX/500;
+  gy1 -= e.movementY/500;
+  
+  //tracker.textContent = "X position: " + x + ", Y position: " + y;
+
+  
+}
+
+
+  //Lock mouse stuff end
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
+  
+  
+  
+  
+  
+  
+  //defining functions on load
+  
+	function clickReporter(e) {
+	let rect = c.getBoundingClientRect();
+	tapX = event.clientX - rect.left;
+	tapY = event.clientY - rect.top;
+
+	
+	if(init==1&&rounds==0&&gamestartedb4==1&&tapX>newWidth*.55&&tapX<newWidth*.9&&tapY>newHeight*.66&&tapY<newHeight*.78){
+		//share button
+		tapX=0;
+
+		//bestscore stuff
+		
+		var bestscore = 0; //0 is the default value
+
+		
+
+
+	}else{
+		touch = 1;
+
+		//
+
+		
+	}
+	
+
+
+	}
+	function mousemoveReporter(e) {
+
+
+		
+	}
+
+
+
+  c.addEventListener('click', clickReporter, false);
+  //c.addEventListener('mousemove', mousemoveReporter, false);
+  
+
+//Run thread
+function runloop(){
+	/*
+	if(rotation1111<359)
+	{
+		rotation1111++;
+	}else
+	{
+		rotation1111=0;
+	}
+	*/
+	
+	
+	
+	
+	
+}
+
+  
+  //Draw thread
+function drawloop(){
+	
+	
+  /**
+		img	The image to be drawn
+		sx	The x coordinate where to start clipping
+		sy	The y coordinate where to start clipping
+		swidth	The width of image to be draw(clipping)
+		sheight	The height of image to be draw(clipping)
+		x	The x coordinate on the canvas where the image to be drawn
+		y	The y coordinate on the canvas where the image to be drawn
+		width	The width of the image(resizing it)
+		height	The height of the image(resizing it)
+  */
+	
+	// move to the center of the canvas
+    //ctx.translate(ufosourcex1[0]+((ufosourcex2[0]-ufosourcex1[0])/2),ufosourcey1[0]+((ufosourcey2[0]-ufosourcey1[0])/2));
+    /**
+	In Java 
+					//this one is for the Barn
+                    canvas.save();
+
+                    canvas.scale(newwidthRatio, newheightRatio);
+                    canvas.rotate(0, (startingpovar)+(roll1*1000-1000)+((getufowidth/14)), (gy1*2000+250+(getufoheight/2)));
+                    barndst = new Rect((widthRatio*((startingpovar-750)+(roll1*1000-1000)-(((Math.abs(barnx1-barnx2)/bitmapwidthratio)*.3)))), (heightRatio*((gy1*2000+750)-((Math.abs(barny1-barny2)/bitmapheightratio)*.3))), (widthRatio*((startingpovar-750)+(roll1*1000-1000))+(((Math.abs(barnx1-barnx2)/bitmapwidthratio)*.3))), (heightRatio*(gy1*2000+750)+((Math.abs(barny1-barny2)/bitmapheightratio)*.3)));
+
+                    canvas.drawBitmap(ufo, barnsrc, barndst, null);
+                    canvas.restore();
+					
+	In JavaScript
+					ctx.save();
+					ctx.translate((startingpovar)+(roll1*1000-1000)+((getufowidth/14)),(gy1*2000+250+(getufoheight/2)));
+					ctx.rotate(25 * Math.PI / 180);
+			
+					ctx.drawImage(img,ufosourcex1[0],ufosourcey1[0],ufosourcex2[0]-ufosourcex1[0],ufosourcey2[0]-ufosourcey1[0],10,10,ufosourcex2[0]-ufosourcex1[0],ufosourcey2[0]-ufosourcey1[0]);
+					ctx.restore();	
+	
+	
+	
+	ctx.clearRect(0, 0, 1080, 720);
+	ctx.save();
+	var xpx=0-((ufosourcex2[0]-ufosourcex1[0])/2);
+	//var xpx=0;
+	var ypy=0-((ufosourcey2[0]-ufosourcey1[0])/2);
+	//var ypy=0;
+	ctx.translate(100+.5*(ufosourcex2[0]-ufosourcex1[0]),100+.5*(+ufosourcey2[0]-ufosourcey1[0]));
+	ctx.rotate(rotation1111 * Math.PI / 180);
+	ctx.drawImage(img,ufosourcex1[0],ufosourcey1[0],ufosourcex2[0]-ufosourcex1[0],ufosourcey2[0]-ufosourcey1[0],xpx,ypy,ufosourcex2[0]-ufosourcex1[0],ufosourcey2[0]-ufosourcey1[0]);
+	ctx.restore();
+	**/
+	/***
+	Draw and render thread looks like one...
+	We'll start that here.
+	****/
+	//bestscore stuff
+	
+                
+                var bestscore = 0; //0 is the default value
+
+                if(score>bestscore){
+                    //
+                    
+                }
+
+
+                //the thread
+
+
+               
+				
+				if(showsplash==1||showsplash==2){
+                    tapX=0;
+                    touch=0;
+                }
+				
+				shotfired=0;
+				roll=roll1;
+				gy=gy1;
+				
+				if(touch==1&&tapX!=0&&gamestarted==0&&rounds==0){
+                    //start the game, startgame
+                    //initializeGvrView();
+                    //initializeGvrView2();
+                    score=0;
+					shotfired=0;
+                    gamestartedb4=1;
+                    startingpovar=(width/2-(roll*1000-1000)) + 2500;
+					roll-=1.5;
+                    rounds=2;
+                    tapX=0;
+                    touch=0;
+                    gamestarted=1;
+                    level=1;
+                    ufostate[0]=0;
+                    ufoabducting[0]=0;
+                    cowgettingabducted[0]=0;
+                    cowstate[0]=0;
+                    cowstate[1]=0;
+                    cowstate[2]=0;
+                    cowcolor[0] = (Math.random()*4);
+                    //cowcolor[0] = 3;
+
+                    if(cowcolor[0]==0){
+                        cowcycle[0]=0;
+
+                    }
+                    if(cowcolor[0]==1){
+                        cowcycle[0]=11;
+                    }
+                    if(cowcolor[0]==2){
+                        cowcycle[0]=32;//these ones are mirrored, that's why
+                    }
+                    if(cowcolor[0]==3){
+                        cowcycle[0]=43;//these ones are mirrored, that's why
+                    }
+
+                    /*
+
+                    cowx[0] = (Math.random()*1000)+3000;
+                    cowy[0] = (Math.random()*200)+300+(200);
+                    cowogy[0] = cowy[0];
+                    */
+
+                    cowx[0] = (Math.random()*1000);
+                    cowy[0] = (Math.random()*200)+300+(200);
+                    cowogy[0] = cowy[0];
+
+
+
+                }
+				
+				//?????????
+				if(gamestarted==1&&tapX!=0){//if someone shoots
+
+
+                    //sounds.play(pop, 1.0f, 1.0f, 0, 0, 1);//This is the magical code we need to play sound
+
+
+                    rounds--;
+                    tapX=0;
+                   shotfired=1;
+
+                    //add next level stuff if liveufos = 0
+                    liveufos=0;
+                    for(j=0; j<level; j++){//loop through ufos
+
+
+                        //kill ufo
+                        //modified to include 360 for lap over width and roll areas
+                        //if(ufostate[j]==0&&(/** begining of individual x comparison. we want to wrap this up varo 3 OR statements**/(( (widthRatio * (ufox[j]+(startingpovar) + (roll * 1000 - 1000))))<(width/2)&&( (widthRatio * (ufox[j]+(startingpovar) + (roll * 1000 - 1000)) + (396)))>(width/2)&&( (heightRatio * (ufoy[j]+(gy * 2000 + 250))))<(height/2))/** end of individual x comparison**/||/** +(Math.PI*2) begining of individual x comparison. we want to wrap this up varo 3 OR statements**/(( (widthRatio * (ufox[j]+(startingpovar) + ((roll+(Math.PI*2)) * 1000 - 1000))))<(width/2)&&( (widthRatio * (ufox[j]+(startingpovar) + ((roll+(Math.PI*2)) * 1000 - 1000)) + (396)))>(width/2)&&( (heightRatio * (ufoy[j]+(gy * 2000 + 250))))<(height/2))/** end of individual x comparison**/||/** -(Math.PI*2)begining of individual x comparison. we want to wrap this up varo 3 OR statements**/(( (widthRatio * (ufox[j]+(startingpovar) + ((roll-(Math.PI*2)) * 1000 - 1000))))<(width/2)&&( (widthRatio * (ufox[j]+(startingpovar) + ((roll-(Math.PI*2)) * 1000 - 1000)) + (396)))>(width/2)&&( (heightRatio * (ufoy[j]+(gy * 2000 + 250))))<(height/2))/** end of individual x comparison**/)&&( (heightRatio * (gy * 2000 + 250) + ufoy[j]+ (getufoheight)))>(height/2))
+
+                            if(
+							ufostate[j]==0&&
+							(
+							(widthRatio * (ufox[j]+(startingpovar) + (roll * 1000 - 1000)))<(width/2)
+							&&(widthRatio * (ufox[j]+(startingpovar) + (roll * 1000 - 1000))) + (targetwidth[j])>(width/2)
+							&&(heightRatio * (ufoy[j]+(gy * 2000 + 250)))<(height/2))
+							&&(heightRatio * (ufoy[j]+(gy * 2000 + 250)))+ (targetheight[j])>(height/2)
+							)
+                        {
+                            score+=10;
+                            ufostate[j]++;
+                            ufocycle[j]=0;
+                            ufocycledirection[j]=0;
+                            ufoflightdirectionx[j]=0;
+                            //sounds.play(explosion, 1.0f, 1.0f, 0, 0, 1);//This is the magical code we need
+
+                            if(ufoabducting[j]==1){//if it was abducting a cow we change the cow is no longer getting abducted
+
+                                cowgettingabducted[ufovictim[j]]=0;
+                                ufoabducting[j]=0;
+                                ufovictim[j]=0;
+
+
+                            }
+                        }
+                        //count live ufos
+                        if(ufostate[j]==0){
+                            liveufos++;
+
+                        }
+
+
+                    }
+                    //end loop through ufos
+                    //loop through cows
+
+                    
+
+
+
+
+                    //end loop through cows
+
+
+
+                    //game over 2
+                    /*
+                    if(livecows==0){
+                        rounds=0;
+                        level=0;
+                        gamestarted=0;
+                        ufoscount=level;
+
+                        cowscount=level;
+                    }
+
+                    */
+
+
+
+                    //next level
+                    if(liveufos==0){
+                        level++;
+                        rounds+=level+1;
+
+                        for(var i=0; i<level; i++){
+                            ufoabducting[i]=0;
+                            ufovictim[i]=0;
+                            ufostate[i] = 0;
+
+
+
+
+
+
+
+                            if(i<3) {
+
+
+                                cowstate[i] = 0;
+                                if (cowcolor[i] == 0) {
+                                    //brown cow cyclestart
+                                    cowcycle[i] = 0;
+
+                                } else if (cowcolor[i] == 1) {
+                                    //white cow cycle start
+                                    cowcycle[i] = 11;
+
+
+                                }else if (cowcolor[i] == 2) {
+                                    //white cow cycle start
+                                    cowcycle[i] = 32;
+
+
+                                }else if (cowcolor[i] == 3) {
+                                    //white cow cycle start
+                                    cowcycle[i] = 43;
+
+
+                                }
+                            }
+
+                            ufox[i] = (Math.random()*1500)-1000;
+                            ufoy[i] = (Math.random()*500)-500;
+                            var p = level;
+                            if(level>1){
+                                p=4;//number of patterns -1
+                            }
+                            ufopattern[i]=Math.floor(Math.random() * (p));//(Math.random()*(p+1));//random number between 0 and p
+                            ufocolor[i]=Math.floor(Math.random() * 7);//(Math.random()*(7));//random number between 0 and 6
+                            //ufocycle[i]=0;
+                            if(ufocolor[i]==6){
+                                ufopattern[i]=0;
+                                ufocycledirection[i]=0;
+                                ufocycle[i]=0;
+                            }
+
+                                if(i<3){
+                                    cowstate[i] = 0;
+                                    cowgettingabducted[i]=0;
+
+
+                                    cowcolor[i] = (Math.random()*4);
+                                    if(cowcolor[i]==0){
+                                        //brown cow cyclestart
+                                        cowcycle[i]=0;
+
+                                    }else if(cowcolor[i]==1){
+                                        //white cow cycle start
+                                        cowcycle[i]=11;
+
+
+                                    }
+                                    else if (cowcolor[i] == 2) {
+                                        //white cow cycle start
+                                        cowcycle[i] = 32;
+
+
+                                    }else if (cowcolor[i] == 3) {
+                                        //white cow cycle start
+                                        cowcycle[i] = 43;
+
+
+                                    }
+                                    cowx[i] = (Math.random()*1000);
+                                    cowy[i] = (Math.random()*200)+300+(200*i);
+                                    cowogy[i] = cowy[i];
+
+
+                                }
+
+
+
+
+                        }
+
+
+
+
+
+
+                    }
+
+
+                    
+
+
+
+
+
+                    //game over
+                    if((ufoscount!=0&&rounds==0)){//||livecows==0 it's not working!!!
+
+                        cowstate[0]=0;
+                        cowstate[1]=0;
+                        cowstate[2]=0;
+                        cowcolor[0] = (Math.random()*4);
+                        if(cowcolor[0]==0){
+                            cowcycle[0]=0;
+
+                        }
+                        if(cowcolor[0]==1){
+                            cowcycle[0]=11;
+                        }
+                        else if (cowcolor[0] == 2) {
+                            //white cow cycle start
+                            cowcycle[0] = 32;
+
+
+                        }else if (cowcolor[0] == 3) {
+                            //white cow cycle start
+                            cowcycle[0] = 43;
+
+
+                        }
+
+                        //showvarerstitial();
+                        rounds=0;
+                        level=0;
+                        gamestarted=0;
+                        //loadvarerstitial();
+                        //showvarerstitial(); it worked right over here almost
+                        //loadvarerstitial();
+                        startthead=0;//No ads for this version
+
+
+
+
+                        ufoscount=level;
+
+                        cowscount=level;
+                    }
+
+                }
+				
+				
+				
+				
+				if(gamestarted==1) {
+				
+
+
+
+                    ufoscount = level;
+                    //put the pattern stuff here
+                    //put all the pattern stuff for the ufos here
+
+
+
+                    for (j = 0; j < level; j++) {
+
+                        
+
+
+
+
+                    //first pattern
+                    //left right pattern
+                    if (ufopattern[j] == 0&&ufostate[j]==0) {
+                        if(ufocolor[j]==6){
+                            ufoy[j]=+500;
+                        }
+                        if (ufoflightdirectionx[j] == 0) {
+                            ufox[j] += ufospeed;
+                            if (ufox[j] > 1000) {
+                                ufoflightdirectionx[j] = 1;
+                            }
+
+                        } else {
+                            ufox[j]-=ufospeed;
+                            if (ufox[j] < -1000) {
+                                ufoflightdirectionx[j] = 0;
+                            }
+
+                        }
+                    }
+                    //second pattern
+                        // Triangle wave
+                        if (ufopattern[j] == 1&&ufoabducting[j]==0&&ufostate[j]==0) {
+                            if (ufoflightdirectionx[j] == 0) {
+                                ufox[j]+=ufospeed;
+
+                                if (ufox[j] > 1000) {
+                                    ufoflightdirectionx[j] = 1;
+                                }
+
+                            } else {
+                                ufox[j]-=ufospeed;
+                                if (ufox[j] < -1000) {
+                                    ufoflightdirectionx[j] = 0;
+                                }
+
+                            }
+                            //ufoy direction pattern 1
+                            if (ufoflightdirectiony[j] == 0) {
+                                ufoy[j]+=ufospeed;
+
+                                if (ufoy[j] > -1) {
+                                    ufoflightdirectiony[j] = 1;
+                                }
+
+                            } else {
+                                ufoy[j]-=ufospeed;
+                                if (ufoy[j] < -499) {
+                                    ufoflightdirectiony[j] = 0;
+                                }
+
+                            }
+                        }
+                        //third pattern
+                        //sin waves
+
+                        if (ufopattern[j] == 2&&ufoabducting[j]==0&&ufostate[j]==0) {
+
+                            if (ufoflightdirectionx[j] == 0) {
+                                ufox[j]+=ufospeed;
+
+                                if (ufox[j] > 1000) {
+                                    ufoflightdirectionx[j] = 1;
+                                }
+
+                            } else {
+                                ufox[j]-=ufospeed;
+                                if (ufox[j] < -1000) {
+                                    ufoflightdirectionx[j] = 0;
+                                }
+
+                            }
+                            ufoflightdirectiontheta[j]+=ufospeed*Math.PI/250;
+                            if(ufoflightdirectiontheta[j]>360){
+                                ufoflightdirectiontheta[j]-=360;
+                            }
+                            //ufoy direction pattern 1
+                            ufoflightdirectiony[j] = 0;
+                            if (ufoflightdirectiony[j] == 0) {
+                                //ufoy[j]+=10*Math.sin(ufoflightdirectiontheta[j]);
+                                ufoy[j]=  (-250+(Math.sin(ufoflightdirectiontheta[j])*245));
+
+
+
+                            }
+
+                        }
+
+                        //fourth pattern
+                        //circling clockwise
+
+                        if (ufopattern[j] == 3&&ufoabducting[j]==0&&ufostate[j]==0) {
+
+                            if (ufoflightdirectionx[j] == 0) {
+                                ufoflightcirclecenx[j]+=ufospeed;
+
+                                if (ufoflightcirclecenx[j] > 1000-245) {
+                                    ufoflightdirectionx[j] = 1;
+                                }
+
+                            } else {
+                                ufoflightcirclecenx[j]-=ufospeed;
+                                if (ufoflightcirclecenx[j] < -1000+245) {
+                                    ufoflightdirectionx[j] = 0;
+                                }
+
+                            }
+                            ufoflightdirectiontheta[j]+=ufospeed*Math.PI/250;
+                            if(ufoflightdirectiontheta[j]>360){
+                                ufoflightdirectiontheta[j]-=360;
+                            }
+                            //ufoy direction pattern 1
+                            ufoflightdirectiony[j] = 0;
+                            if (ufoflightdirectiony[j] == 0) {
+                                //ufoy[j]+=10*Math.sin(ufoflightdirectiontheta[j]);
+
+
+                                ufox[j]=  (Math.sin(ufoflightdirectiontheta[j])*245+ufoflightcirclecenx[j]);
+
+                                ufoy[j]=  (Math.cos(ufoflightdirectiontheta[j])*245);
+
+
+
+                            }
+
+                        }
+                        //fifth pattern
+                        //circling counter-clockwise
+
+                        if (ufopattern[j] == 4&&ufoabducting[j]==0&&ufostate[j]==0) {
+
+                            if (ufoflightdirectionx[j] == 0) {
+                                ufoflightcirclecenx[j]+=ufospeed;
+
+                                if (ufoflightcirclecenx[j] > 1000-245) {
+                                    ufoflightdirectionx[j] = 1;
+                                }
+
+                            } else {
+                                ufoflightcirclecenx[j]-=ufospeed;
+                                if (ufoflightcirclecenx[j] < -1000+245) {
+                                    ufoflightdirectionx[j] = 0;
+                                }
+
+                            }
+                            ufoflightdirectiontheta[j]-=ufospeed*Math.PI/250;
+                            if(ufoflightdirectiontheta[j]<0){
+                                ufoflightdirectiontheta[j]+=360;
+                            }
+                            //ufoy direction pattern 1
+                            ufoflightdirectiony[j] = 0;
+                            if (ufoflightdirectiony[j] == 0) {
+                                //ufoy[j]+=10*Math.sin(ufoflightdirectiontheta[j]);
+
+
+                                ufox[j]=  (Math.sin(ufoflightdirectiontheta[j])*245+ufoflightcirclecenx[j]);
+
+                                ufoy[j]=  (Math.cos(ufoflightdirectiontheta[j])*245);
+
+
+
+                            }
+
+                        }
+
+
+                }
+                    
+
+
+                    cowscount=level;
+                    if(level>3){
+                        cowscount = 3;
+                    }
+
+                    if(level<8){
+                        ufospeed = level*10;
+                    }
+                    else{
+                        ufospeed = 8*10;
+                    }
+
+                    if(rounds<1){
+
+                        gamestarted=0;
+
+                    }
+                }
+				
+				
+				
+				//x++;
+                //y++;
+
+                if(bunnyi==0){
+                    bunnyi=1;
+                    bunny=bunny2;
+                }
+                tick++;
+                splashtick++;
+
+                if(splashtick<20){
+                    showsplash=1;
+                }else if(splashtick<45){
+                    showsplash=2;
+                }else{
+                    showsplash=0;
+                }
+
+
+                if(tick>5){
+                    bunnyi++;
+
+                    if(bunnyi==8){
+                        bunnyi=1;
+                    }
+                    tick=0;
+                }
+
+                if(bunnyi==1){
+                    bunny=bunny1;
+                }
+
+                if(bunnyi==2){
+                    bunny=bunny2;
+                }
+                if(bunnyi==3){
+                    bunny=bunny3;
+                }
+                if(bunnyi==4){
+                    bunny=bunny4;
+                }
+                if(bunnyi==5){
+                    bunny=bunny5;
+                }
+                if(bunnyi==6){
+                    bunny=bunny6;
+                }
+                if(bunnyi==7){
+                    bunny=bunny7;
+                }
+				
+				                if(true) {//tick==0
+
+                    //a good place to comment out for testing
+                    //need to change it for the birds. You are going to need a for loop in here
+
+                    for (v = 0; v < level; v++) {
+
+                        if(ufocolor[v]==6){
+                            if(ufocycle[v]>15){
+                                ufocycle[v]=0;
+                            }
+                            if(ufoflightdirectionx[v]==1){
+                                //moving cycle forward moving left
+                                if(ufocycle[v]>=6){
+                                    ufocycle[v]=0;
+                                }else{
+                                    ufocycle[v]++;
+                                }
+                            }else if(ufoflightdirectionx[v]==0){
+                                //moving cycle backward moving right
+                                if(ufocycle[v]<=7){
+                                    ufocycle[v]=13;
+                                }else{
+                                    ufocycle[v]--;
+                                }
+                            }
+
+
+                        }else if((ufoflightdirectionx[v]==1&&ufopattern[v]!=3)||ufopattern[v]==4){
+                            if(ufocycle[v]>=6){
+                                ufocycle[v]=0;
+                                ufocycledirection[v] = 0;
+                            }
+
+
+
+                            //cut here
+                            if (ufocycledirection[v] == 0) {
+                                ufocycle[v]++;
+                                if (ufocycle[v] >= 5) {
+                                    ufocycledirection[v] = 1;
+                                    //ufocycle = 0;
+                                }
+                            } else if (ufocycledirection[v] == 1) {
+                                ufocycle[v]--;
+                                if (ufocycle[v] <= 0) {
+                                    ufocycledirection[v] = 0;
+                                }
+                            }
+
+                            //end cut here
+                        }else if((ufoflightdirectionx[v]==0&&ufopattern[v]!=4)||ufopattern[v]==3){
+
+                            if(ufocycle[v]<=5){
+                                ufocycle[v]=6;
+                                ufocycledirection[v] = 0;
+                            }
+
+                            //cut here
+                            if (ufocycledirection[v] == 0) {
+                                ufocycle[v]++;
+                                if (ufocycle[v] >= 11) {
+                                    ufocycledirection[v] = 1;
+                                    //ufocycle = 0;
+                                }
+                            } else if (ufocycledirection[v] == 1) {
+                                ufocycle[v]--;
+                                if (ufocycle[v] <= 6) {
+                                    ufocycledirection[v] = 0;
+                                }
+                            }
+
+
+                            //end cut here
+                        }
+
+                    }
+
+
+
+                    
+
+
+
+
+
+
+                    //if livecows is 0
+                    //game over
+                    if(((ufoscount!=0&&rounds==0))&&gamestarted==1){//||livecows==0 it's not working!!!
+
+                        cowstate[0]=0;
+                        cowstate[1]=0;
+                        cowstate[2]=0;
+                        cowcolor[0] = (Math.random()*4);
+                        if(cowcolor[0]==0){
+                            cowcycle[0]=0;
+
+                        }
+                        if(cowcolor[0]==1){
+                            cowcycle[0]=11;
+                        }
+
+                        if(cowcolor[0]==2){
+                            cowcycle[0]=32;
+                        }
+
+                        if(cowcolor[0]==1){
+                            cowcycle[0]=43;
+                        }
+
+
+                        rounds=0;
+                        
+                        level=0;
+                        gamestarted=0;
+                        
+
+                        //not here
+                        ufoscount=level;
+
+                        cowscount=level;
+                    }
+
+
+
+
+                    //a good place to comment out for testing
+                }
+				
+				
+				
+				if(init==0){
+                    startingpovar=(width/2-(roll*1000-1000));
+                    init=1;
+					shotfired=0;
+
+                }
+				
+				
+				
+				
+				//????????
+				
+				
+				
+				
+				
+				//DRAWING LOGIC
+				
+				
+				ctx.clearRect(0, 0, 1080, 720);
+	//ctx.drawRGB(0, 112, 130);//clearcanvas
+	//ctx.globalAlpha = 0.5;
+	ctx.fillStyle = "#87ceeb";
+	ctx.fillRect(0, 0, 1080, 720);
+	ctx.fillStyle = "#000000";
+	
+	
+	//roll=2000;
+	
+	//background drawing
+	ctx.save();
+	ctx.drawImage(img,backgroundx1,backgroundy1,backgroundx2-backgroundx1,backgroundy2-backgroundy1,0,((((((gy)*2000)-1500)*heightRatio)-height*1.8)),width,(((((gy*2000)-1500)*heightRatio)+(height*3)))-((((((gy)*2000)-1500)*heightRatio)-height)));
+	ctx.restore();
+	
+	if(touch==1){
+		//alert((widthRatio*((startingpovar-750)+(roll*1000-1000)-(((Math.abs(barnx1-barnx2)/bitmapwidthratio)*2)))),
+	//);
+		//alert((widthRatio*((startingpovar-750)+(roll*1000-1000)-(((Math.abs(barnx1-barnx2)/bitmapwidthratio)*2)))));
+		//alert((widthRatio*((startingpovar-750)+(roll*1000-1000)-(((Math.abs(barnx1-barnx2)/bitmapwidthratio)*2)))));
+		
+	}
+
+	//barn drawing
+	ctx.save();
+	ctx.drawImage(img,barnx1,barny1,barnx2-barnx1,barny2-barny1, (widthRatio*((startingpovar-750)+(roll*1000-1000)-(((Math.abs(barnx1-barnx2)/bitmapwidthratio)*2)))),((((((gy)*2000)+2900)*heightRatio)-height)),barnx2-barnx1,barny2-barny1);
+	ctx.restore();
+	
+	
+	//cloud drawing
+	ctx.save();
+	ctx.drawImage(img,cloudx1,cloudy1,cloudx2-cloudx1,cloudy2-cloudy1,
+	(widthRatio*((startingpovar)+(roll*1000-500)-(((Math.abs(cloudx1-cloudx2))/2)))),
+	(heightRatio*((gy*2000)-((Math.abs(cloudy1-cloudy2))/2))),
+	Math.abs(cloudx2-cloudx1),
+	((heightRatio*(gy*2000)+((Math.abs(cloudy1-cloudy2))/2)))-((heightRatio*((gy*2000)-((Math.abs(cloudy1-cloudy2))/2)))));
+	ctx.restore();
+	
+	
+	
+	
+	
+	
+	
+	
+				
+					//this one is for ufos
+                    for(var i=ufoscount-1; i>=0; i--){
+                        if(ufostate[i]==0) {//if bird live
+                            //drawing each bird
+                            ctx.save();
+                            
+                            
+                            var newcrazyangle;// = 0;
+                            if(ufopattern[i]==4){
+                                newcrazyangle =  (0-radians_to_degrees((ufoflightdirectiontheta[i])));
+                            }else if(ufopattern[i]==3){
+                                newcrazyangle =  (0-radians_to_degrees((ufoflightdirectiontheta[i])));
+                            }else{
+                                newcrazyangle = 0;
+                            }
+							//change the rotate
+							///ctx.translate((ufox[i]+widthRatio * ((startingpovar) + (roll1 * 1000 - 1000))) + (396 / 2),  (ufoy[i]+heightRatio * (gy1 * 2000 + 250) + (getufoheight / 2)));
+                            ///ctx.rotate(newcrazyangle);
+
+                          if(ufocolor[i]==0){
+                              ufosourcex1[0] =  (0*bitmapwidthratio);
+                              ufosourcex1[1] =  (400*bitmapwidthratio);
+                              ufosourcex1[2] =  (800*bitmapwidthratio);
+                              ufosourcex1[3] =  (1200*bitmapwidthratio);
+                              ufosourcex1[4] =  (1600*bitmapwidthratio);
+                              ufosourcex1[5] =  (2000*bitmapwidthratio);
+                              ufosourcex1[6] =  (2400*bitmapwidthratio);
+                              ufosourcex1[7] =  (2800*bitmapwidthratio);
+                              ufosourcex1[8] =  (3200*bitmapwidthratio);
+                              ufosourcex1[9] =  (3600*bitmapwidthratio);
+                              ufosourcex1[10] =  (4000*bitmapwidthratio);
+                              ufosourcex1[11] =  (4400*bitmapwidthratio);
+                              ufosourcex1[12] =  (5328*bitmapwidthratio);
+                              ufosourcex1[13] =  (5772*bitmapwidthratio);
+
+                              ufosourcex2[0] =  (396*bitmapwidthratio);
+                              ufosourcex2[1] =  (796*bitmapwidthratio);
+                              ufosourcex2[2] =  (1196*bitmapwidthratio);
+                              ufosourcex2[3] =  (1596*bitmapwidthratio);
+                              ufosourcex2[4] =  (1996*bitmapwidthratio);
+                              ufosourcex2[5] =  (2396*bitmapwidthratio);
+                              ufosourcex2[6] =  (2796*bitmapwidthratio);
+                              ufosourcex2[7] =  (3196*bitmapwidthratio);
+                              ufosourcex2[8] =  (3596*bitmapwidthratio);
+                              ufosourcex2[9] =  (3996*bitmapwidthratio);
+                              ufosourcex2[10] =  (4396*bitmapwidthratio);
+                              ufosourcex2[11] =  (4796*bitmapwidthratio);
+                              ufosourcex2[12] =  (5772*bitmapwidthratio);
+                              ufosourcex2[13] =  (6216*bitmapwidthratio);
+
+
+
+                                for(var tbc=0; tbc<13; tbc++){
+
+                                    //ufosourcey1[tbc]=4220;//1055
+                                    //ufosourcey2[tbc]=4468;//1117
+                                    //ufosourcey1[tbc]=4488;
+                                    //ufosourcey2[tbc]=4736;
+                                    ufosourcey1[tbc]=0;
+                                    ufosourcey2[tbc]=248/4;
+                                    //ufosourcey1[tbc]=3960;
+                                    //ufosourcey2[tbc]=4208;
+                                    //ufosourcey1[tbc]=4748;
+                                    //ufosourcey2[tbc]=4996;
+
+                                }
+                            }
+                            else if(ufocolor[i]==1){
+                              ufosourcex1[0] =  (0*bitmapwidthratio);
+                              ufosourcex1[1] =  (400*bitmapwidthratio);
+                              ufosourcex1[2] =  (800*bitmapwidthratio);
+                              ufosourcex1[3] =  (1200*bitmapwidthratio);
+                              ufosourcex1[4] =  (1600*bitmapwidthratio);
+                              ufosourcex1[5] =  (2000*bitmapwidthratio);
+                              ufosourcex1[6] =  (2400*bitmapwidthratio);
+                              ufosourcex1[7] =  (2800*bitmapwidthratio);
+                              ufosourcex1[8] =  (3200*bitmapwidthratio);
+                              ufosourcex1[9] =  (3600*bitmapwidthratio);
+                              ufosourcex1[10] =  (4000*bitmapwidthratio);
+                              ufosourcex1[11] =  (4400*bitmapwidthratio);
+                              ufosourcex1[12] =  (5328*bitmapwidthratio);
+                              ufosourcex1[13] =  (5772*bitmapwidthratio);
+
+                              ufosourcex2[0] =  (396*bitmapwidthratio);
+                              ufosourcex2[1] =  (796*bitmapwidthratio);
+                              ufosourcex2[2] =  (1196*bitmapwidthratio);
+                              ufosourcex2[3] =  (1596*bitmapwidthratio);
+                              ufosourcex2[4] =  (1996*bitmapwidthratio);
+                              ufosourcex2[5] =  (2396*bitmapwidthratio);
+                              ufosourcex2[6] =  (2796*bitmapwidthratio);
+                              ufosourcex2[7] =  (3196*bitmapwidthratio);
+                              ufosourcex2[8] =  (3596*bitmapwidthratio);
+                              ufosourcex2[9] =  (3996*bitmapwidthratio);
+                              ufosourcex2[10] =  (4396*bitmapwidthratio);
+                              ufosourcex2[11] =  (4796*bitmapwidthratio);
+                              ufosourcex2[12] =  (5772*bitmapwidthratio);
+                              ufosourcex2[13] =  (6216*bitmapwidthratio);
+                                for(var tbc=0; tbc<13; tbc++){
+
+                                    //ufosourcey1[tbc]=4220;//1055
+                                    //ufosourcey2[tbc]=4468;//1117
+                                    //ufosourcey1[tbc]=4488;
+                                    //ufosourcey2[tbc]=4736;
+                                    ufosourcey1[tbc]=3700/4;
+                                    ufosourcey2[tbc]=3948/4;
+                                    //ufosourcey1[tbc]=3960;
+                                    //ufosourcey2[tbc]=4208;
+                                    //ufosourcey1[tbc]=4748;
+                                    //ufosourcey2[tbc]=4996;
+
+                                }
+                            }else if(ufocolor[i]==2){
+                              ufosourcex1[0] =  (0*bitmapwidthratio);
+                              ufosourcex1[1] =  (400*bitmapwidthratio);
+                              ufosourcex1[2] =  (800*bitmapwidthratio);
+                              ufosourcex1[3] =  (1200*bitmapwidthratio);
+                              ufosourcex1[4] =  (1600*bitmapwidthratio);
+                              ufosourcex1[5] =  (2000*bitmapwidthratio);
+                              ufosourcex1[6] =  (2400*bitmapwidthratio);
+                              ufosourcex1[7] =  (2800*bitmapwidthratio);
+                              ufosourcex1[8] =  (3200*bitmapwidthratio);
+                              ufosourcex1[9] =  (3600*bitmapwidthratio);
+                              ufosourcex1[10] =  (4000*bitmapwidthratio);
+                              ufosourcex1[11] =  (4400*bitmapwidthratio);
+                              ufosourcex1[12] =  (5328*bitmapwidthratio);
+                              ufosourcex1[13] =  (5772*bitmapwidthratio);
+
+                              ufosourcex2[0] =  (396*bitmapwidthratio);
+                              ufosourcex2[1] =  (796*bitmapwidthratio);
+                              ufosourcex2[2] =  (1196*bitmapwidthratio);
+                              ufosourcex2[3] =  (1596*bitmapwidthratio);
+                              ufosourcex2[4] =  (1996*bitmapwidthratio);
+                              ufosourcex2[5] =  (2396*bitmapwidthratio);
+                              ufosourcex2[6] =  (2796*bitmapwidthratio);
+                              ufosourcex2[7] =  (3196*bitmapwidthratio);
+                              ufosourcex2[8] =  (3596*bitmapwidthratio);
+                              ufosourcex2[9] =  (3996*bitmapwidthratio);
+                              ufosourcex2[10] =  (4396*bitmapwidthratio);
+                              ufosourcex2[11] =  (4796*bitmapwidthratio);
+                              ufosourcex2[12] =  (5772*bitmapwidthratio);
+                              ufosourcex2[13] =  (6216*bitmapwidthratio);
+                                for(var tbc=0; tbc<13; tbc++){
+
+                                    //ufosourcey1[tbc]=4220;//1055
+                                    //ufosourcey2[tbc]=4468;//1117
+                                    //ufosourcey1[tbc]=4488;
+                                    //ufosourcey2[tbc]=4736;
+                                    ufosourcey1[tbc]=3960/4;
+                                    ufosourcey2[tbc]=4208/4;
+                                    //ufosourcey1[tbc]=3960;
+                                    //ufosourcey2[tbc]=4208;
+                                    //ufosourcey1[tbc]=4748;
+                                    //ufosourcey2[tbc]=4996;
+
+                                }
+                            }else if(ufocolor[i]==3){
+                              ufosourcex1[0] =  (0*bitmapwidthratio);
+                              ufosourcex1[1] =  (400*bitmapwidthratio);
+                              ufosourcex1[2] =  (800*bitmapwidthratio);
+                              ufosourcex1[3] =  (1200*bitmapwidthratio);
+                              ufosourcex1[4] =  (1600*bitmapwidthratio);
+                              ufosourcex1[5] =  (2000*bitmapwidthratio);
+                              ufosourcex1[6] =  (2400*bitmapwidthratio);
+                              ufosourcex1[7] =  (2800*bitmapwidthratio);
+                              ufosourcex1[8] =  (3200*bitmapwidthratio);
+                              ufosourcex1[9] =  (3600*bitmapwidthratio);
+                              ufosourcex1[10] =  (4000*bitmapwidthratio);
+                              ufosourcex1[11] =  (4400*bitmapwidthratio);
+                              ufosourcex1[12] =  (5328*bitmapwidthratio);
+                              ufosourcex1[13] =  (5772*bitmapwidthratio);
+
+                              ufosourcex2[0] =  (396*bitmapwidthratio);
+                              ufosourcex2[1] =  (796*bitmapwidthratio);
+                              ufosourcex2[2] =  (1196*bitmapwidthratio);
+                              ufosourcex2[3] =  (1596*bitmapwidthratio);
+                              ufosourcex2[4] =  (1996*bitmapwidthratio);
+                              ufosourcex2[5] =  (2396*bitmapwidthratio);
+                              ufosourcex2[6] =  (2796*bitmapwidthratio);
+                              ufosourcex2[7] =  (3196*bitmapwidthratio);
+                              ufosourcex2[8] =  (3596*bitmapwidthratio);
+                              ufosourcex2[9] =  (3996*bitmapwidthratio);
+                              ufosourcex2[10] =  (4396*bitmapwidthratio);
+                              ufosourcex2[11] =  (4796*bitmapwidthratio);
+                              ufosourcex2[12] =  (5772*bitmapwidthratio);
+                              ufosourcex2[13] =  (6216*bitmapwidthratio);
+                                for(var tbc=0; tbc<13; tbc++){
+
+                                    //Red Bird source y1=4220; y2=4468;
+                                    //White Bird source y1=4488; y2=4736;
+                                    //Green Bird source y1=4748; y2=4996;
+                                    //ufosourcey1[tbc]=4220;//1055
+                                    //ufosourcey2[tbc]=4468;//1117
+                                    //ufosourcey1[tbc]=4488;
+                                    //ufosourcey2[tbc]=4736;
+                                    ufosourcey1[tbc]=4220/4;
+                                    ufosourcey2[tbc]=4468/4;
+                                    //ufosourcey1[tbc]=3960;
+                                    //ufosourcey2[tbc]=4208;
+                                    //ufosourcey1[tbc]=4748;
+                                    //ufosourcey2[tbc]=4996;
+
+                                }
+                            }else if(ufocolor[i]==4){
+                              ufosourcex1[0] =  (0*bitmapwidthratio);
+                              ufosourcex1[1] =  (400*bitmapwidthratio);
+                              ufosourcex1[2] =  (800*bitmapwidthratio);
+                              ufosourcex1[3] =  (1200*bitmapwidthratio);
+                              ufosourcex1[4] =  (1600*bitmapwidthratio);
+                              ufosourcex1[5] =  (2000*bitmapwidthratio);
+                              ufosourcex1[6] =  (2400*bitmapwidthratio);
+                              ufosourcex1[7] =  (2800*bitmapwidthratio);
+                              ufosourcex1[8] =  (3200*bitmapwidthratio);
+                              ufosourcex1[9] =  (3600*bitmapwidthratio);
+                              ufosourcex1[10] =  (4000*bitmapwidthratio);
+                              ufosourcex1[11] =  (4400*bitmapwidthratio);
+                              ufosourcex1[12] =  (5328*bitmapwidthratio);
+                              ufosourcex1[13] =  (5772*bitmapwidthratio);
+
+                              ufosourcex2[0] =  (396*bitmapwidthratio);
+                              ufosourcex2[1] =  (796*bitmapwidthratio);
+                              ufosourcex2[2] =  (1196*bitmapwidthratio);
+                              ufosourcex2[3] =  (1596*bitmapwidthratio);
+                              ufosourcex2[4] =  (1996*bitmapwidthratio);
+                              ufosourcex2[5] =  (2396*bitmapwidthratio);
+                              ufosourcex2[6] =  (2796*bitmapwidthratio);
+                              ufosourcex2[7] =  (3196*bitmapwidthratio);
+                              ufosourcex2[8] =  (3596*bitmapwidthratio);
+                              ufosourcex2[9] =  (3996*bitmapwidthratio);
+                              ufosourcex2[10] =  (4396*bitmapwidthratio);
+                              ufosourcex2[11] =  (4796*bitmapwidthratio);
+                              ufosourcex2[12] =  (5772*bitmapwidthratio);
+                              ufosourcex2[13] =  (6216*bitmapwidthratio);
+                                for(var tbc=0; tbc<13; tbc++){
+
+                                    //ufosourcey1[tbc]=4220;//1055
+                                    //ufosourcey2[tbc]=4468;//1117
+                                    //ufosourcey1[tbc]=4488;
+                                    //ufosourcey2[tbc]=4736;
+                                    ufosourcey1[tbc]=4488/4;
+                                    ufosourcey2[tbc]=4736/4;
+                                    //ufosourcey1[tbc]=3960;
+                                    //ufosourcey2[tbc]=4208;
+                                    //ufosourcey1[tbc]=4748;
+                                    //ufosourcey2[tbc]=4996;
+
+                                }
+                            }else if(ufocolor[i]==5){
+                                ufosourcex1[0] =  (0*bitmapwidthratio);
+                                ufosourcex1[1] =  (400*bitmapwidthratio);
+                                ufosourcex1[2] =  (800*bitmapwidthratio);
+                                ufosourcex1[3] =  (1200*bitmapwidthratio);
+                                ufosourcex1[4] =  (1600*bitmapwidthratio);
+                                ufosourcex1[5] =  (2000*bitmapwidthratio);
+                                ufosourcex1[6] =  (2400*bitmapwidthratio);
+                                ufosourcex1[7] =  (2800*bitmapwidthratio);
+                                ufosourcex1[8] =  (3200*bitmapwidthratio);
+                                ufosourcex1[9] =  (3600*bitmapwidthratio);
+                                ufosourcex1[10] =  (4000*bitmapwidthratio);
+                                ufosourcex1[11] =  (4400*bitmapwidthratio);
+                                ufosourcex1[12] =  (5328*bitmapwidthratio);
+                                ufosourcex1[13] =  (5772*bitmapwidthratio);
+
+                                ufosourcex2[0] =  (396*bitmapwidthratio);
+                                ufosourcex2[1] =  (796*bitmapwidthratio);
+                                ufosourcex2[2] =  (1196*bitmapwidthratio);
+                                ufosourcex2[3] =  (1596*bitmapwidthratio);
+                                ufosourcex2[4] =  (1996*bitmapwidthratio);
+                                ufosourcex2[5] =  (2396*bitmapwidthratio);
+                                ufosourcex2[6] =  (2796*bitmapwidthratio);
+                                ufosourcex2[7] =  (3196*bitmapwidthratio);
+                                ufosourcex2[8] =  (3596*bitmapwidthratio);
+                                ufosourcex2[9] =  (3996*bitmapwidthratio);
+                                ufosourcex2[10] =  (4396*bitmapwidthratio);
+                                ufosourcex2[11] =  (4796*bitmapwidthratio);
+                                ufosourcex2[12] =  (5772*bitmapwidthratio);
+                                ufosourcex2[13] =  (6216*bitmapwidthratio);
+                                //Black Bird source y1=0; y2=248;
+                                //Blue Bird source y1=3700; y2=3948;
+                                //Yellow Bird source y1=3960; y2=4208;
+                                //Red Bird source y1=4220; y2=4468;
+                                //White Bird source y1=4488; y2=4736;
+                                //Green Bird source y1=4748; y2=4996;
+
+                                for(var tbc=0; tbc<13; tbc++){
+
+                                    //ufosourcey1[tbc]=4220;//1055
+                                    //ufosourcey2[tbc]=4468;//1117
+                                    //ufosourcey1[tbc]=4488;
+                                    //ufosourcey2[tbc]=4736;
+                                    ufosourcey1[tbc]=4748/4;
+                                    ufosourcey2[tbc]=4996/4;
+                                    //ufosourcey1[tbc]=3960;
+                                    //ufosourcey2[tbc]=4208;
+                                    //ufosourcey1[tbc]=4748;
+                                    //ufosourcey2[tbc]=4996;
+
+                                }
+                            }else if(ufocolor[i]==6){
+                                //Black Bird source y1=0; y2=248;
+                                //Blue Bird source y1=3700; y2=3948;
+                                //Yellow Bird source y1=3960; y2=4208;
+                                //Red Bird source y1=4220; y2=4468;
+                                //White Bird source y1=4488; y2=4736;
+                                //Green Bird source y1=4748; y2=4996;
+
+                                //CHANGE THESE FOR THE BUNNY
+                                ufosourcex1[0] =  (0*bitmapwidthratio);
+                                ufosourcex1[1] =  (444*bitmapwidthratio);
+                                ufosourcex1[2] =  (888*bitmapwidthratio);
+                                ufosourcex1[3] =  (1332*bitmapwidthratio);
+                                ufosourcex1[4] =  (1776*bitmapwidthratio);
+                                ufosourcex1[5] =  (2220*bitmapwidthratio);
+                                ufosourcex1[6] =  (2664*bitmapwidthratio);
+                                ufosourcex1[7] =  (3108*bitmapwidthratio);
+                                ufosourcex1[8] =  (3552*bitmapwidthratio);
+                                ufosourcex1[9] =  (3996*bitmapwidthratio);
+                                ufosourcex1[10] =  (4440*bitmapwidthratio);
+                                ufosourcex1[11] =  (4884*bitmapwidthratio);
+                                ufosourcex1[12] =  (5328*bitmapwidthratio);
+                                ufosourcex1[13] =  (5772*bitmapwidthratio);
+
+
+                                ufosourcex2[0] =  (444*bitmapwidthratio);
+                                ufosourcex2[1] =  (888*bitmapwidthratio);
+                                ufosourcex2[2] =  (1332*bitmapwidthratio);
+                                ufosourcex2[3] =  (1776*bitmapwidthratio);
+                                ufosourcex2[4] =  (2220*bitmapwidthratio);
+                                ufosourcex2[5] =  (2664*bitmapwidthratio);
+                                ufosourcex2[6] =  (3108*bitmapwidthratio);
+                                ufosourcex2[7] =  (3552*bitmapwidthratio);
+                                ufosourcex2[8] =  (3996*bitmapwidthratio);
+                                ufosourcex2[9] =  (4440*bitmapwidthratio);
+                                ufosourcex2[10] =  (4884*bitmapwidthratio);
+                                ufosourcex2[11] =  (5328*bitmapwidthratio);
+                                ufosourcex2[12] =  (5772*bitmapwidthratio);
+                                ufosourcex2[13] =  (6216*bitmapwidthratio);
+
+
+                                for(var tbc=0; tbc<=13; tbc++){
+
+
+                                    ufosourcey1[tbc]=5000/4;
+                                    ufosourcey2[tbc]=5416/4;
+
+
+                                }
+                            }
+                            if(ufocycle[i]>13){
+
+                                ctx.drawText("UfoSource 13 "+ufocycle[i] +"color "+ufocolor[i], (300*widthRatio), (60*heightRatio), pavar);//top left is level
+                            }
+
+                            //ufosrc1 = new Rect(ufosourcex1[ufocycle[i]], ufosourcey1[ufocycle[i]], ufosourcex2[ufocycle[i]], ufosourcey2[ufocycle[i]]);
+                            //ufodst1 = new Rect( (widthRatio * (ufox[i]+(startingpovar) + (roll1 * 1000 - 1000))),  (heightRatio * (ufoy[i]+(gy1 * 2000 + 250))),  (widthRatio * (ufox[i]+(startingpovar) + (roll1 * 1000 - 1000)) + (targetwidth[i])),  (heightRatio * (gy1 * 2000 + 250) + ufoy[i]+ (targetheight[i])));
+                            //
+                            //ctx.drawImage(img, ufosourcex1[ufocycle[i]], ufosourcey1[ufocycle[i]], ufosourcex2[ufocycle[i]], ufosourcey2[ufocycle[i]],
+							//((ufox[i]+(startingpovar) + (roll * 1000 - 1000))),
+							//(heightRatio * (ufoy[i]+(gy * 2000 + 250))),
+							//(widthRatio * (ufox[i]+(startingpovar) + (roll * 1000 - 1000)) + (targetwidth[i])),
+							//(heightRatio * (gy * 2000 + 250) + ufoy[i]+ (targetheight[i])));
+							
+                            //ufodst1 = new Rect( (widthRatio * (ufox[i]+(startingpovar) + ((roll1-(Math.PI*2)) * 1000 - 1000))),  (heightRatio * (ufoy[i]+(gy1 * 2000 + 250))),  (widthRatio * (ufox[i]+(startingpovar) + ((roll1-(Math.PI*2)) * 1000 - 1000)) + (targetwidth[i])),  (heightRatio * (gy1 * 2000 + 250) + ufoy[i]+ (targetheight[i])));
+                            //
+                            ///ctx.drawImage(img, ufosrc1, ufodst1, null);
+                            //ufodst1 = new Rect( (widthRatio * (ufox[i]+(startingpovar) + ((roll1+(Math.PI*2)) * 1000 - 1000))),  (heightRatio * (ufoy[i]+(gy1 * 2000 + 250))),  (widthRatio * (ufox[i]+(startingpovar) + ((roll1+(Math.PI*2)) * 1000 - 1000)) + (targetwidth[i])),  (heightRatio * (gy1 * 2000 + 250) + ufoy[i]+ (targetheight[i])));
+                            //
+                            ctx.drawImage(img, ufosourcex1[ufocycle[i]], ufosourcey1[ufocycle[i]], ufosourcex2[ufocycle[i]]-ufosourcex1[ufocycle[i]], ufosourcey2[ufocycle[i]]-ufosourcey1[ufocycle[i]],
+							(widthRatio * (ufox[i]+(startingpovar) + (roll * 1000 - 1000))),//
+							//(widthRatio*((startingpovar-750)+(roll*1000-1000)-(((Math.abs(barnx1-barnx2)/bitmapwidthratio)*2))))
+							(heightRatio * (ufoy[i]+(gy * 2000 + 250))),
+							ufosourcex2[ufocycle[i]]-ufosourcex1[ufocycle[i]],
+							ufosourcey2[ufocycle[i]]-ufosourcey1[ufocycle[i]]);
+							
+							//ctx.drawImage(img, barnx1, barny1, barnx2-barnx1, barny2-barny1,
+							//0, 0, 200, 200);
+							//ctx.fillText("Something..........11......... "+ ufosourcey1[ufocycle[i]]+" y " + ufoy[0], 20, 120);//top left is level
+                            ctx.restore();
+                        }else if(ufostate[i]>=1&&ufostate[i]<10){//this is the dead bird stuff...
+                            //exploding ufo
+                            ufostate[i]++;
+                            ctx.save();
+                            
+                            ///ctx.translate((((widthRatio * (ufox[i]+(startingpovar) + (roll1 * 1000 - 1000))))+((widthRatio * (ufox[i]+(startingpovar) + (roll1 * 1000 - 1000)) + (targetwidth[i]))))/2,  (((heightRatio * (ufoy[i]+(gy1 * 2000 + 250)))+(heightRatio * (gy1 * 2000 + 250) + ufoy[i]+ (targetheight[i])))/2));
+							///ctx.rotate(Math.random()*360);
+                            //Black Bird source y1=0; y2=248;
+                            //Blue Bird source y1=3700; y2=3948;
+                            //Yellow Bird source y1=3960; y2=4208;
+                            //Red Bird source y1=4220; y2=4468;
+                            //White Bird source y1=4488; y2=4736;
+                            //Green Bird source y1=4748; y2=4996;
+                            if(ufocolor[i]==0){
+                                ufosourcex1[0] =  (0*bitmapwidthratio);
+                                ufosourcex1[1] =  (400*bitmapwidthratio);
+                                ufosourcex1[2] =  (800*bitmapwidthratio);
+                                ufosourcex1[3] =  (1200*bitmapwidthratio);
+                                ufosourcex1[4] =  (1600*bitmapwidthratio);
+                                ufosourcex1[5] =  (2000*bitmapwidthratio);
+                                ufosourcex1[6] =  (2400*bitmapwidthratio);
+                                ufosourcex1[7] =  (2800*bitmapwidthratio);
+                                ufosourcex1[8] =  (3200*bitmapwidthratio);
+                                ufosourcex1[9] =  (3600*bitmapwidthratio);
+                                ufosourcex1[10] =  (4000*bitmapwidthratio);
+                                ufosourcex1[11] =  (4400*bitmapwidthratio);
+                                ufosourcex1[12] =  (5328*bitmapwidthratio);
+                                ufosourcex1[13] =  (5772*bitmapwidthratio);
+
+                                ufosourcex2[0] =  (396*bitmapwidthratio);
+                                ufosourcex2[1] =  (796*bitmapwidthratio);
+                                ufosourcex2[2] =  (1196*bitmapwidthratio);
+                                ufosourcex2[3] =  (1596*bitmapwidthratio);
+                                ufosourcex2[4] =  (1996*bitmapwidthratio);
+                                ufosourcex2[5] =  (2396*bitmapwidthratio);
+                                ufosourcex2[6] =  (2796*bitmapwidthratio);
+                                ufosourcex2[7] =  (3196*bitmapwidthratio);
+                                ufosourcex2[8] =  (3596*bitmapwidthratio);
+                                ufosourcex2[9] =  (3996*bitmapwidthratio);
+                                ufosourcex2[10] =  (4396*bitmapwidthratio);
+                                ufosourcex2[11] =  (4796*bitmapwidthratio);
+                                ufosourcex2[12] =  (5772*bitmapwidthratio);
+                                ufosourcex2[13] =  (6216*bitmapwidthratio);
+
+
+
+                                for(var tbc=0; tbc<13; tbc++){
+
+                                    //ufosourcey1[tbc]=4220;//1055
+                                    //ufosourcey2[tbc]=4468;//1117
+                                    //ufosourcey1[tbc]=4488;
+                                    //ufosourcey2[tbc]=4736;
+                                    ufosourcey1[tbc]=0;
+                                    ufosourcey2[tbc]=248/4;
+                                    //ufosourcey1[tbc]=3960;
+                                    //ufosourcey2[tbc]=4208;
+                                    //ufosourcey1[tbc]=4748;
+                                    //ufosourcey2[tbc]=4996;
+
+                                }
+                            }
+                            else if(ufocolor[i]==1){
+                                ufosourcex1[0] =  (0*bitmapwidthratio);
+                                ufosourcex1[1] =  (400*bitmapwidthratio);
+                                ufosourcex1[2] =  (800*bitmapwidthratio);
+                                ufosourcex1[3] =  (1200*bitmapwidthratio);
+                                ufosourcex1[4] =  (1600*bitmapwidthratio);
+                                ufosourcex1[5] =  (2000*bitmapwidthratio);
+                                ufosourcex1[6] =  (2400*bitmapwidthratio);
+                                ufosourcex1[7] =  (2800*bitmapwidthratio);
+                                ufosourcex1[8] =  (3200*bitmapwidthratio);
+                                ufosourcex1[9] =  (3600*bitmapwidthratio);
+                                ufosourcex1[10] =  (4000*bitmapwidthratio);
+                                ufosourcex1[11] =  (4400*bitmapwidthratio);
+                                ufosourcex1[12] =  (5328*bitmapwidthratio);
+                                ufosourcex1[13] =  (5772*bitmapwidthratio);
+
+                                ufosourcex2[0] =  (396*bitmapwidthratio);
+                                ufosourcex2[1] =  (796*bitmapwidthratio);
+                                ufosourcex2[2] =  (1196*bitmapwidthratio);
+                                ufosourcex2[3] =  (1596*bitmapwidthratio);
+                                ufosourcex2[4] =  (1996*bitmapwidthratio);
+                                ufosourcex2[5] =  (2396*bitmapwidthratio);
+                                ufosourcex2[6] =  (2796*bitmapwidthratio);
+                                ufosourcex2[7] =  (3196*bitmapwidthratio);
+                                ufosourcex2[8] =  (3596*bitmapwidthratio);
+                                ufosourcex2[9] =  (3996*bitmapwidthratio);
+                                ufosourcex2[10] =  (4396*bitmapwidthratio);
+                                ufosourcex2[11] =  (4796*bitmapwidthratio);
+                                ufosourcex2[12] =  (5772*bitmapwidthratio);
+                                ufosourcex2[13] =  (6216*bitmapwidthratio);
+                                for(var tbc=0; tbc<13; tbc++){
+
+                                    //ufosourcey1[tbc]=4220;//1055
+                                    //ufosourcey2[tbc]=4468;//1117
+                                    //ufosourcey1[tbc]=4488;
+                                    //ufosourcey2[tbc]=4736;
+                                    ufosourcey1[tbc]=3700/4;
+                                    ufosourcey2[tbc]=3948/4;
+                                    //ufosourcey1[tbc]=3960;
+                                    //ufosourcey2[tbc]=4208;
+                                    //ufosourcey1[tbc]=4748;
+                                    //ufosourcey2[tbc]=4996;
+
+                                }
+                            }else if(ufocolor[i]==2){
+                                ufosourcex1[0] =  (0*bitmapwidthratio);
+                                ufosourcex1[1] =  (400*bitmapwidthratio);
+                                ufosourcex1[2] =  (800*bitmapwidthratio);
+                                ufosourcex1[3] =  (1200*bitmapwidthratio);
+                                ufosourcex1[4] =  (1600*bitmapwidthratio);
+                                ufosourcex1[5] =  (2000*bitmapwidthratio);
+                                ufosourcex1[6] =  (2400*bitmapwidthratio);
+                                ufosourcex1[7] =  (2800*bitmapwidthratio);
+                                ufosourcex1[8] =  (3200*bitmapwidthratio);
+                                ufosourcex1[9] =  (3600*bitmapwidthratio);
+                                ufosourcex1[10] =  (4000*bitmapwidthratio);
+                                ufosourcex1[11] =  (4400*bitmapwidthratio);
+                                ufosourcex1[12] =  (5328*bitmapwidthratio);
+                                ufosourcex1[13] =  (5772*bitmapwidthratio);
+
+                                ufosourcex2[0] =  (396*bitmapwidthratio);
+                                ufosourcex2[1] =  (796*bitmapwidthratio);
+                                ufosourcex2[2] =  (1196*bitmapwidthratio);
+                                ufosourcex2[3] =  (1596*bitmapwidthratio);
+                                ufosourcex2[4] =  (1996*bitmapwidthratio);
+                                ufosourcex2[5] =  (2396*bitmapwidthratio);
+                                ufosourcex2[6] =  (2796*bitmapwidthratio);
+                                ufosourcex2[7] =  (3196*bitmapwidthratio);
+                                ufosourcex2[8] =  (3596*bitmapwidthratio);
+                                ufosourcex2[9] =  (3996*bitmapwidthratio);
+                                ufosourcex2[10] =  (4396*bitmapwidthratio);
+                                ufosourcex2[11] =  (4796*bitmapwidthratio);
+                                ufosourcex2[12] =  (5772*bitmapwidthratio);
+                                ufosourcex2[13] =  (6216*bitmapwidthratio);
+                                for(var tbc=0; tbc<13; tbc++){
+
+                                    //ufosourcey1[tbc]=4220;//1055
+                                    //ufosourcey2[tbc]=4468;//1117
+                                    //ufosourcey1[tbc]=4488;
+                                    //ufosourcey2[tbc]=4736;
+                                    ufosourcey1[tbc]=3960/4;
+                                    ufosourcey2[tbc]=4208/4;
+                                    //ufosourcey1[tbc]=3960;
+                                    //ufosourcey2[tbc]=4208;
+                                    //ufosourcey1[tbc]=4748;
+                                    //ufosourcey2[tbc]=4996;
+
+                                }
+                            }else if(ufocolor[i]==3){
+                                ufosourcex1[0] =  (0*bitmapwidthratio);
+                                ufosourcex1[1] =  (400*bitmapwidthratio);
+                                ufosourcex1[2] =  (800*bitmapwidthratio);
+                                ufosourcex1[3] =  (1200*bitmapwidthratio);
+                                ufosourcex1[4] =  (1600*bitmapwidthratio);
+                                ufosourcex1[5] =  (2000*bitmapwidthratio);
+                                ufosourcex1[6] =  (2400*bitmapwidthratio);
+                                ufosourcex1[7] =  (2800*bitmapwidthratio);
+                                ufosourcex1[8] =  (3200*bitmapwidthratio);
+                                ufosourcex1[9] =  (3600*bitmapwidthratio);
+                                ufosourcex1[10] =  (4000*bitmapwidthratio);
+                                ufosourcex1[11] =  (4400*bitmapwidthratio);
+                                ufosourcex1[12] =  (5328*bitmapwidthratio);
+                                ufosourcex1[13] =  (5772*bitmapwidthratio);
+
+                                ufosourcex2[0] =  (396*bitmapwidthratio);
+                                ufosourcex2[1] =  (796*bitmapwidthratio);
+                                ufosourcex2[2] =  (1196*bitmapwidthratio);
+                                ufosourcex2[3] =  (1596*bitmapwidthratio);
+                                ufosourcex2[4] =  (1996*bitmapwidthratio);
+                                ufosourcex2[5] =  (2396*bitmapwidthratio);
+                                ufosourcex2[6] =  (2796*bitmapwidthratio);
+                                ufosourcex2[7] =  (3196*bitmapwidthratio);
+                                ufosourcex2[8] =  (3596*bitmapwidthratio);
+                                ufosourcex2[9] =  (3996*bitmapwidthratio);
+                                ufosourcex2[10] =  (4396*bitmapwidthratio);
+                                ufosourcex2[11] =  (4796*bitmapwidthratio);
+                                ufosourcex2[12] =  (5772*bitmapwidthratio);
+                                ufosourcex2[13] =  (6216*bitmapwidthratio);
+                                for(var tbc=0; tbc<13; tbc++){
+
+                                    //Red Bird source y1=4220; y2=4468;
+                                    //White Bird source y1=4488; y2=4736;
+                                    //Green Bird source y1=4748; y2=4996;
+                                    //ufosourcey1[tbc]=4220;//1055
+                                    //ufosourcey2[tbc]=4468;//1117
+                                    //ufosourcey1[tbc]=4488;
+                                    //ufosourcey2[tbc]=4736;
+                                    ufosourcey1[tbc]=4220/4;
+                                    ufosourcey2[tbc]=4468/4;
+                                    //ufosourcey1[tbc]=3960;
+                                    //ufosourcey2[tbc]=4208;
+                                    //ufosourcey1[tbc]=4748;
+                                    //ufosourcey2[tbc]=4996;
+
+                                }
+                            }else if(ufocolor[i]==4){
+                                ufosourcex1[0] =  (0*bitmapwidthratio);
+                                ufosourcex1[1] =  (400*bitmapwidthratio);
+                                ufosourcex1[2] =  (800*bitmapwidthratio);
+                                ufosourcex1[3] =  (1200*bitmapwidthratio);
+                                ufosourcex1[4] =  (1600*bitmapwidthratio);
+                                ufosourcex1[5] =  (2000*bitmapwidthratio);
+                                ufosourcex1[6] =  (2400*bitmapwidthratio);
+                                ufosourcex1[7] =  (2800*bitmapwidthratio);
+                                ufosourcex1[8] =  (3200*bitmapwidthratio);
+                                ufosourcex1[9] =  (3600*bitmapwidthratio);
+                                ufosourcex1[10] =  (4000*bitmapwidthratio);
+                                ufosourcex1[11] =  (4400*bitmapwidthratio);
+                                ufosourcex1[12] =  (5328*bitmapwidthratio);
+                                ufosourcex1[13] =  (5772*bitmapwidthratio);
+
+                                ufosourcex2[0] =  (396*bitmapwidthratio);
+                                ufosourcex2[1] =  (796*bitmapwidthratio);
+                                ufosourcex2[2] =  (1196*bitmapwidthratio);
+                                ufosourcex2[3] =  (1596*bitmapwidthratio);
+                                ufosourcex2[4] =  (1996*bitmapwidthratio);
+                                ufosourcex2[5] =  (2396*bitmapwidthratio);
+                                ufosourcex2[6] =  (2796*bitmapwidthratio);
+                                ufosourcex2[7] =  (3196*bitmapwidthratio);
+                                ufosourcex2[8] =  (3596*bitmapwidthratio);
+                                ufosourcex2[9] =  (3996*bitmapwidthratio);
+                                ufosourcex2[10] =  (4396*bitmapwidthratio);
+                                ufosourcex2[11] =  (4796*bitmapwidthratio);
+                                ufosourcex2[12] =  (5772*bitmapwidthratio);
+                                ufosourcex2[13] =  (6216*bitmapwidthratio);
+                                for(var tbc=0; tbc<13; tbc++){
+
+                                    //ufosourcey1[tbc]=4220;//1055
+                                    //ufosourcey2[tbc]=4468;//1117
+                                    //ufosourcey1[tbc]=4488;
+                                    //ufosourcey2[tbc]=4736;
+                                    ufosourcey1[tbc]=4488/4;
+                                    ufosourcey2[tbc]=4736/4;
+                                    //ufosourcey1[tbc]=3960;
+                                    //ufosourcey2[tbc]=4208;
+                                    //ufosourcey1[tbc]=4748;
+                                    //ufosourcey2[tbc]=4996;
+
+                                }
+                            }else if(ufocolor[i]==5){
+                                ufosourcex1[0] =  (0*bitmapwidthratio);
+                                ufosourcex1[1] =  (400*bitmapwidthratio);
+                                ufosourcex1[2] =  (800*bitmapwidthratio);
+                                ufosourcex1[3] =  (1200*bitmapwidthratio);
+                                ufosourcex1[4] =  (1600*bitmapwidthratio);
+                                ufosourcex1[5] =  (2000*bitmapwidthratio);
+                                ufosourcex1[6] =  (2400*bitmapwidthratio);
+                                ufosourcex1[7] =  (2800*bitmapwidthratio);
+                                ufosourcex1[8] =  (3200*bitmapwidthratio);
+                                ufosourcex1[9] =  (3600*bitmapwidthratio);
+                                ufosourcex1[10] =  (4000*bitmapwidthratio);
+                                ufosourcex1[11] =  (4400*bitmapwidthratio);
+                                ufosourcex1[12] =  (5328*bitmapwidthratio);
+                                ufosourcex1[13] =  (5772*bitmapwidthratio);
+
+                                ufosourcex2[0] =  (396*bitmapwidthratio);
+                                ufosourcex2[1] =  (796*bitmapwidthratio);
+                                ufosourcex2[2] =  (1196*bitmapwidthratio);
+                                ufosourcex2[3] =  (1596*bitmapwidthratio);
+                                ufosourcex2[4] =  (1996*bitmapwidthratio);
+                                ufosourcex2[5] =  (2396*bitmapwidthratio);
+                                ufosourcex2[6] =  (2796*bitmapwidthratio);
+                                ufosourcex2[7] =  (3196*bitmapwidthratio);
+                                ufosourcex2[8] =  (3596*bitmapwidthratio);
+                                ufosourcex2[9] =  (3996*bitmapwidthratio);
+                                ufosourcex2[10] =  (4396*bitmapwidthratio);
+                                ufosourcex2[11] =  (4796*bitmapwidthratio);
+                                ufosourcex2[12] =  (5772*bitmapwidthratio);
+                                ufosourcex2[13] =  (6216*bitmapwidthratio);
+                                //Black Bird source y1=0; y2=248;
+                                //Blue Bird source y1=3700; y2=3948;
+                                //Yellow Bird source y1=3960; y2=4208;
+                                //Red Bird source y1=4220; y2=4468;
+                                //White Bird source y1=4488; y2=4736;
+                                //Green Bird source y1=4748; y2=4996;
+
+                                for(var tbc=0; tbc<13; tbc++){
+
+                                    //ufosourcey1[tbc]=4220;//1055
+                                    //ufosourcey2[tbc]=4468;//1117
+                                    //ufosourcey1[tbc]=4488;
+                                    //ufosourcey2[tbc]=4736;
+                                    ufosourcey1[tbc]=4748/4;
+                                    ufosourcey2[tbc]=4996/4;
+                                    //ufosourcey1[tbc]=3960;
+                                    //ufosourcey2[tbc]=4208;
+                                    //ufosourcey1[tbc]=4748;
+                                    //ufosourcey2[tbc]=4996;
+
+                                }
+                            }else if(ufocolor[i]==6){
+                                //Black Bird source y1=0; y2=248;
+                                //Blue Bird source y1=3700; y2=3948;
+                                //Yellow Bird source y1=3960; y2=4208;
+                                //Red Bird source y1=4220; y2=4468;
+                                //White Bird source y1=4488; y2=4736;
+                                //Green Bird source y1=4748; y2=4996;
+
+                                //CHANGE THESE FOR THE BUNNY
+                                ufosourcex1[0] =  (0*bitmapwidthratio);
+                                ufosourcex1[1] =  (444*bitmapwidthratio);
+                                ufosourcex1[2] =  (888*bitmapwidthratio);
+                                ufosourcex1[3] =  (1332*bitmapwidthratio);
+                                ufosourcex1[4] =  (1776*bitmapwidthratio);
+                                ufosourcex1[5] =  (2220*bitmapwidthratio);
+                                ufosourcex1[6] =  (2664*bitmapwidthratio);
+                                ufosourcex1[7] =  (3108*bitmapwidthratio);
+                                ufosourcex1[8] =  (3552*bitmapwidthratio);
+                                ufosourcex1[9] =  (3996*bitmapwidthratio);
+                                ufosourcex1[10] =  (4440*bitmapwidthratio);
+                                ufosourcex1[11] =  (4884*bitmapwidthratio);
+                                ufosourcex1[12] =  (5328*bitmapwidthratio);
+                                ufosourcex1[13] =  (5772*bitmapwidthratio);
+
+
+                                ufosourcex2[0] =  (444*bitmapwidthratio);
+                                ufosourcex2[1] =  (888*bitmapwidthratio);
+                                ufosourcex2[2] =  (1332*bitmapwidthratio);
+                                ufosourcex2[3] =  (1776*bitmapwidthratio);
+                                ufosourcex2[4] =  (2220*bitmapwidthratio);
+                                ufosourcex2[5] =  (2664*bitmapwidthratio);
+                                ufosourcex2[6] =  (3108*bitmapwidthratio);
+                                ufosourcex2[7] =  (3552*bitmapwidthratio);
+                                ufosourcex2[8] =  (3996*bitmapwidthratio);
+                                ufosourcex2[9] =  (4440*bitmapwidthratio);
+                                ufosourcex2[10] =  (4884*bitmapwidthratio);
+                                ufosourcex2[11] =  (5328*bitmapwidthratio);
+                                ufosourcex2[12] =  (5772*bitmapwidthratio);
+                                ufosourcex2[13] =  (6216*bitmapwidthratio);
+
+
+                                for(var tbc=0; tbc<=13; tbc++){
+
+
+                                    ufosourcey1[tbc]=5020/4;
+                                    ufosourcey2[tbc]=5416/4;
+
+
+                                }
+                            }
+
+                            //ufosrc1 = new Rect(ufosourcex1[8], ufosourcey1[8], ufosourcex2[8], ufosourcey2[8]);
+                            //ufodst1 = new Rect( (widthRatio * (ufox[i]+(startingpovar) + (roll1 * 1000 - 1000))),  (heightRatio * (ufoy[i]+(gy1 * 2000 + 250))),  (widthRatio * (ufox[i]+(startingpovar) + (roll1 * 1000 - 1000)) + (targetwidth[i])),  (heightRatio * (gy1 * 2000 + 250) + ufoy[i]+ (targetheight[i])));
+							//idk if this works
+							// dead birds
+                            ctx.drawImage(img, ufosourcex1[ufocycle[i]], ufosourcey1[ufocycle[i]], ufosourcex2[ufocycle[i]]-ufosourcex1[ufocycle[i]], ufosourcey2[ufocycle[i]]-ufosourcey1[ufocycle[i]],
+							(widthRatio * (ufox[i]+(startingpovar) + (roll * 1000 - 1000))),//
+							//(widthRatio*((startingpovar-750)+(roll*1000-1000)-(((Math.abs(barnx1-barnx2)/bitmapwidthratio)*2))))
+							(heightRatio * (ufoy[i]+(gy * 2000 + 250))),
+							ufosourcex2[ufocycle[i]]-ufosourcex1[ufocycle[i]],
+							ufosourcey2[ufocycle[i]]-ufosourcey1[ufocycle[i]]);
+							
+							
+                           // ufodst1 = new Rect( (widthRatio * (ufox[i]+(startingpovar) + ((roll1+(Math.PI*2)) * 1000 - 1000))),  (heightRatio * (ufoy[i]+(gy1 * 2000 + 250))),  (widthRatio * (ufox[i]+(startingpovar) + ((roll1+(Math.PI*2)) * 1000 - 1000)) + (targetwidth[i])),  (heightRatio * (gy1 * 2000 + 250) + ufoy[i]+ (targetheight[i])));
+
+                            ///ctx.drawImage(img, ufosrc1, ufodst1, null);
+                            //ufodst1 = new Rect( (widthRatio * (ufox[i]+(startingpovar) + ((roll1-(Math.PI*2)) * 1000 - 1000))),  (heightRatio * (ufoy[i]+(gy1 * 2000 + 250))),  (widthRatio * (ufox[i]+(startingpovar) + ((roll1-(Math.PI*2)) * 1000 - 1000)) + (targetwidth[i])),  (heightRatio * (gy1 * 2000 + 250) + ufoy[i]+ (targetheight[i])));
+
+                            ///ctx.drawImage(img, ufosrc1, ufodst1, null);
+                            ctx.restore();
+                        }
+                    }
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					//testing
+					
+					//ctx.fillText("x "+ ufox[0]+" y " + ufoy[0], 20, 120);//top left is level
+				
+				
+					
+				
+					if(level>0&&rounds>0){
+                       
+						
+						ctx.drawImage(img,shottyx1[shotfired],shottyy1[shotfired],shottyx2[shotfired],shottyy2[shotfired],
+						width*.35,(height*.70),width*.30,(height*.35));
+						
+						ctx.drawImage(img,crosshairx1,crosshairy1,crosshairx2-crosshairx1,crosshairy2-crosshairy1,
+						((width/2)-Math.abs((widthRatio*(crosshairx1-crosshairx2)/2))),
+						((height/2)-Math.abs(((crosshairy1-crosshairy2)*heightRatio)/2)),
+						((width/2)+Math.abs(((crosshairx1-crosshairx2))*widthRatio/2))-((width/2)-Math.abs((widthRatio*(crosshairx1-crosshairx2)/2))),
+						((height/2)+Math.abs(((crosshairy1-crosshairy2)*heightRatio)/2))-((height/2)-Math.abs(((crosshairy1-crosshairy2)*heightRatio)/2)));
+						
+						
+						
+						
+						//stats
+                        //canvas.drawText("UfoSource 13 "+ufosourcex2[13], (300*widthRatio), (60*heightRatio), pavar);//top left is level
+						
+						
+						
+						
+						ctx.font = "30px Arial";
+                        //ctx.fillText("Check    ........."+ufopattern[0] , 100, 100);//top left is level
+                        //ctx.fillText("<width/2 "+width/2, 100, 150);//top left is level 
+						//ctx.fillText("Check2 "+( (widthRatio * (ufox[0]+(startingpovar) + (roll * 1000 - 1000))))+targetheight[0], 100, 200);//top left is level
+                        //ctx.fillText("<width/2 "+(heightRatio * (ufoy[0]+(gy * 2000 + 250))), 100, 250);//top left is level
+                        ctx.fillText("Level "+level, 10, 60);//top left is level
+                        ctx.fillText("Score "+score,  (width-(width*.25)), 60);//top right is the score
+                        ctx.fillText("Ammo "+rounds,  (width-(width*.25)), height-10);//bottom right is rounds
+						 
+						//ctx.fillText("Level "+level, 10, 60); 
+				   
+				   
+				   }
+				   
+				   
+				   
+				   
+				   
+				   
+				   
+
+				
+					//initial Game Menu
+
+                    if(init==1&&rounds==0&&gamestartedb4==0&&splashtick>20){
+                        //
+                        ///testing area
+						ctx.save();
+						ctx.drawImage(img,woodboardx1[3],woodboardy1[3],woodboardx2[3]-woodboardx1[3],woodboardy2[3]-woodboardy1[3],width*.35,(height*.45),width*(.3),height*(.15));
+						ctx.restore();
+
+
+                        //end of testing area
+                        //woodboarddst = new Rect((width*.35), (height*.40), (width*.65), (height*.60));
+
+                        //woodboardsrc = new Rect(woodboardx1[3], woodboardy1[3], woodboardx2[3], woodboardy2[3]);
+                        //canvas.save();
+
+                        //canvas.scale(newwidthRatio, newheightRatio);
+                        //canvas.rotate(0, (startingpovar)+(roll1*1000-1000)+((getufowidth/14)), (gy1*2000+250+(getufoheight/2)));
+                        //canvas.drawImage(ufo, woodboardsrc, woodboarddst, null);
+                        //canvas.restore();
+
+                    }
+					
+					
+					//draw gameover
+                    if(init==1&&rounds==0&&gamestartedb4==1){
+                        //this one is for the gameover
+                        ctx.save();
+
+                        
+                        ctx.drawImage(img, gameoverx1, gameovery1, gameoverx2-gameoverx1, gameovery2-gameovery1, width*.35,height*.25,width*.3,height*.5);
+                        ctx.restore();
+
+                        //high score part
+                        //woodboarddst = new Rect((width*.55), (height*.40), (width*.90), (height*.50));
+
+                        //woodboardsrc = new Rect(woodboardx1[2], woodboardy1[2], woodboardx2[2], woodboardy2[2]);
+                        ctx.save();
+
+                        
+                        //ctx.drawImage(img, woodboardsrc, woodboarddst, null);
+                        ctx.restore();
+
+                        //
+                        //woodboarddst = new Rect((width*.55), (height*.52), (width*.90), (height*.64));
+
+                        //woodboardsrc = new Rect(woodboardx1[0], woodboardy1[0], woodboardx2[0], woodboardy2[0]);
+                        ctx.save();
+
+                        
+                        //ctx.drawImage(img, woodboardsrc, woodboarddst, null);
+
+                        //pavar.setColor(Color.BLACK);
+                        //pavar.setTextSize( (1920/32)*2*widthRatio);
+                        ctx.fillText(" "+bestscore, (.6*width), (.6*height));//top left is level
+
+                        ctx.restore();
+
+
+                        //end
+
+                        //Your score part
+                        //woodboarddst = new Rect((width*.1), (height*.40), (width*.45), (height*.50));
+
+                        //woodboardsrc = new Rect(woodboardx1[0], woodboardy1[0], woodboardx2[0], woodboardy2[0]);
+                        ctx.save();
+
+                        
+                        ctx.drawImage(img, woodboardsrc, woodboarddst, null);
+                        ctx.restore();
+
+                        //
+                        woodboarddst = new Rect((width*.1), (height*.52), (width*.45), (height*.64));
+
+                        woodboardsrc = new Rect(woodboardx1[0], woodboardy1[0], woodboardx2[0], woodboardy2[0]);
+                        ctx.save();
+
+                        
+                        ctx.drawImage(img, woodboardsrc, woodboarddst, null);
+
+                        pavar.setColor(Color.BLACK);
+                        pavar.setTextSize( (1920/32)*2*widthRatio);
+                        ctx.drawText(" "+score, (.16*width), (.6*height), pavar);//top left is level
+                        ctx.drawText("Your Score", (.14*width), (.48*height), pavar);//top left is level
+                        ctx.restore();
+
+
+                        //end
+
+                        //share button
+                        woodboarddst = new Rect((width*.55), (height*.66), (width*.90), (height*.78));
+
+                        woodboardsrc = new Rect(woodboardx1[1], woodboardy1[1], woodboardx2[1], woodboardy2[1]);
+                        ctx.save();
+
+                        
+                        ctx.drawImage(img, woodboardsrc, woodboarddst, null);
+                        ctx.restore();
+
+                        //play button
+                        woodboarddst = new Rect((width*.1), (height*.66), (width*.45), (height*.78));
+
+                        woodboardsrc = new Rect(woodboardx1[3], woodboardy1[3], woodboardx2[3], woodboardy2[3]);
+                        ctx.save();
+
+                        
+                        ctx.drawImage(img, woodboardsrc, woodboarddst, null);
+                        ctx.restore();
+
+
+                    }
+					
+					
+				    if(showsplash==1){
+						ctx.save();
+						ctx.drawImage(splash,0,0,105,121,width*.35,(height*.25),width*.3,height*.5);
+						ctx.restore();
+                    }
+					
+                    if(showsplash==2){
+						ctx.save();
+						ctx.drawImage(feature,0,0,1024,500,0,0,width,height);
+						ctx.restore();
+                    }
+	
+	
+}
+    setInterval(runloop, 25);  
+	setInterval(drawloop, 33);  
+
+	
+	
+}
+
+
+
+/**
+
+
+
+**/
+
+//1st listener
+
+//2nd mouse lock
+//gotta fix this...
+
+
+
+</script>
+
+</body>
+</html>
